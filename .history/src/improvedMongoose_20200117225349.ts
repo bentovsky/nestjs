@@ -1,0 +1,25 @@
+import { Mongoose } from 'mongoose';
+import * as mongoose from 'mongoose';
+import * as mongoosePluginCreatedAt from 'mongoose-plugin-createdat';
+
+export class ImprovedMongoose {
+  constructor() {
+    this.setDefaultPlugins();
+  }
+  removePlugin(name) {
+    const plugins: IPlugins[][] = (mongoose as any).plugins;
+    const pluginToRemove: IPlugins[] = plugins.find(plugin => plugin.find(params => params.name === name))
+    const index: number = plugins.indexOf(pluginToRemove);
+    const final = plugins.splice(index, 1)
+    console.log('plugins: ', final);
+    // console.log('test: ', pluginToRemove);
+
+  }
+  private setDefaultPlugins() {
+    mongoose.plugin(mongoosePluginCreatedAt, { name: 'createdAt' });
+  }
+}
+
+interface IPlugins extends Mongoose {
+    name: string
+}
